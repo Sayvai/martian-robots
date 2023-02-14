@@ -1,8 +1,24 @@
-# Getting Started with Create React App
+# Martian Robots
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a simple app to build a Martian Robots input and output processor.
 
-## Available Scripts
+When you run the app, and for the first line, enter the initial size of the grid coordinates using X and Y formats (e.g. "5 3"),
+
+On each subsequent two lines thereafter, follows instructions per robot.
+
+a) For the 1st robot line instruction, it should indicate its starting X and Y position on the behind-the-scenes grid, followed by a singular character representation of orientation, delimited by a space. (e.g. "1 1 E")
+
+b) For the 2nd robot line instruction, it should indicate a sequence of instructions, limited to R (orient right), L (orient left), F (move forward). (e.g. "RFRFRFRF").
+
+Repeat a) and b) to apply instructions for multiple robots.
+
+Once you're ready to get the final robot positions, then click on the button labelled "Submit instructions", and the results will be output as a list at the bottom of the page.
+
+You may view an example demonstration on how to use the app, below:
+
+![Martian Robots GIF - Usage Demonstration](https://user-images.githubusercontent.com/7581546/218821386-23a18753-5df0-44da-ad34-fb0fae4ad7bc.gif)
+
+## Getting Started with Create React App
 
 In the project directory, you can run:
 
@@ -19,52 +35,32 @@ You may also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Known bugs
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- When inserting the following instruction, the output is slightly off by 1 (Y coordinate) when compared to PDF result. A skipped (failing) unit test is implemented for now.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Input:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+0 3 W
+LLFFFLFLFL
+```
 
-### `npm run eject`
+Expected Output:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+2 3 S
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Actual Output:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+2 4 S
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Missing tasks / future considerations
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Implement "Lost" (out-of-bounds) functionality
+- Implement validation of text instruction entries
+- Refactor out calculations into its own exportable functions to be imported into the component. Easier to write isolated unit tests per function.
+- Style up the component better

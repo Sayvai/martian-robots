@@ -53,6 +53,82 @@ function App() {
 
   const getFinalPosition = ({ x, y, orientation, instructions }) => {
     // Crunch the robot inctructions..
+    const historicalRobotPositions = [{ x, y, orientation }];
+
+    const coordsX = Array.from(Array(upperRightCoords[0]).keys());
+    const coordsY = Array.from(Array(upperRightCoords[1]).keys());
+
+    const orientationHashMap = {
+      NL: "W",
+      NR: "E",
+      EL: "N",
+      ER: "S",
+      SL: "E",
+      SR: "W",
+      WL: "S",
+      WR: "N",
+    };
+
+    const plusMinusMap = {
+      NO_MOVE: 0,
+      PLUS_ONE: +1,
+      MINUS_ONE: -1,
+    };
+
+    // tuples of single [x, y] coords manoeuvres
+    const orientationInstructionHashMap = {
+      N: [plusMinusMap.NO_MOVE, plusMinusMap.PLUS_ONE],
+      E: [plusMinusMap.PLUS_ONE, plusMinusMap.NO_MOVE],
+      S: [plusMinusMap.NO_MOVE, plusMinusMap.MINUS_ONE],
+      W: [plusMinusMap.MINUS_ONE, plusMinusMap.NO_MOVE],
+    };
+
+    instructions.forEach((instruction) => {
+      const {
+        x: previousX,
+        y: previousY,
+        orientation: previousOrientation,
+      } = historicalRobotPositions.at(-1);
+
+      let newX = previousX;
+      let newY = previousY;
+      let newOrientation = previousOrientation;
+
+      switch (instruction) {
+        case "R":
+          newOrientation = orientationHashMap[`${previousOrientation}R`];
+          break;
+        case "L":
+          newOrientation = orientationHashMap[`${previousOrientation}L`];
+          break;
+        case "F":
+          const [directionX, directionY] =
+            orientationInstructionHashMap[newOrientation];
+          newX = directionX === plusMinusMap.NO_MOVE ? newX : newX + directionX;
+          newY = directionY === plusMinusMap.NO_MOVE ? newY : newY + directionY;
+          break;
+        default:
+          break;
+      }
+
+      const newRobotPosition = {
+        x: newX,
+        y: newY,
+        orientation: newOrientation,
+      };
+
+      historicalRobotPositions.push(newRobotPosition);
+    });
+
+    console.log("HISTORICAL ROBOTO POSITIONS", historicalRobotPositions);
+
+    const {
+      x: finalX,
+      y: finalY,
+      orientation: finalOrientation,
+    } = historicalRobotPositions.at(-1);
+
+    return `${finalX} ${finalY} ${finalOrientation}`;
   };
 
   const renderRobots = () => {
@@ -60,7 +136,7 @@ function App() {
       console.log("ROBOT DATA", robotData);
       const result = getFinalPosition(robotData);
 
-      const robotResult = `Robot #${robotNum} result: ${result};`;
+      const robotResult = `Robot #${robotNum} result: ${result}`;
 
       return <li key={robotNum}>{robotResult}</li>;
     });
@@ -72,13 +148,21 @@ function App() {
         <h1>Martian Robots</h1>
         <main>
           <form name="instructions" onSubmit={onHandleInstructions}>
-            <textarea ref={textareaInstruction} />
+            <textarea
+              data-testid="input-instruction"
+              ref={textareaInstruction}
+            />
             <button type="submit">Submit instructions</button>
             {robots.size > 0 && <ul>{renderRobots()}</ul>}
           </form>
         </main>
       </div>
-      <style>{``}</style>
+      <style>{`
+        textarea {
+          width: 90%;
+          height: 50vh;
+        }
+      `}</style>
     </>
   );
 }
