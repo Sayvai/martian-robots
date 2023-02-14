@@ -16,7 +16,7 @@ Once you're ready to get the final robot positions, then click on the button lab
 
 You may view an example demonstration on how to use the app, below:
 
-![Martian Robots GIF - Usage Demonstration](https://user-images.githubusercontent.com/7581546/218821386-23a18753-5df0-44da-ad34-fb0fae4ad7bc.gif)
+![Martian Robots GIF - Usage Demonstration](https://user-images.githubusercontent.com/7581546/218867691-8156bbb4-98dc-4efb-990a-28a7d1c1bc87.gif)
 
 ## Getting Started with Create React App
 
@@ -55,12 +55,12 @@ Expected Output (from PDF instructions):
 Actual Output:
 
 ```
-2 4 S
+2 4 S LOST
 ```
 
 ## Missing tasks / future considerations
 
 - Implement "Lost" (out-of-bounds) functionality ✅ (implemented within 10 minutes of resumption of work, post-submission.)
-- Implement validation of text instruction entries. (possible solution: implement separate validation functions to check for maximum coordinate value, and instruction string length limit), and invoke those validation functions within onHandleInstructions(). If there are any validation errors, then push to new local component state `[errors, setErrors]` as an array of errors, and render out all invalid messages, and stop from further processing instructions.
+- Implement validation of text instruction entries. 2 skipped unit tests implemented for the error validation scenarios. 👉 **Possible solution**: implement separate validation functions to check for maximum coordinate value, and instruction string length limit, and invoke those validation functions within onHandleInstructions(). If there are any validation errors, then push to new local component state `[errors, setErrors]` as an array of errors, and render out all invalid messages, and stop from further processing instructions.
 - Refactor out calculations into its own exportable functions to be imported into the component. Easier to write isolated unit tests per function.
 - Style up the component better
