@@ -35,7 +35,6 @@ describe("Martian Robots", () => {
     fireEvent.click(buttonElement);
 
     const main = screen.getByRole("main");
-    console.log(prettyDOM(main));
 
     // then
     const listItems = screen.getAllByRole("listitem");
@@ -61,7 +60,6 @@ describe("Martian Robots", () => {
     fireEvent.click(buttonElement);
 
     const main = screen.getByRole("main");
-    console.log(prettyDOM(main));
 
     // then
     const listItems = screen.getAllByRole("listitem");
@@ -95,5 +93,58 @@ describe("Martian Robots", () => {
     expect(listItems.length).toBe(2);
     expect(listItems.at(0).textContent).toBe("Robot #1 result: 1 1 E");
     expect(listItems.at(1).textContent).toBe("Robot #2 result: 2 3 S");
+  });
+
+  // TODO - Must implement in source code
+  it.skip(`should
+    - render error message,
+    - when an upper grid coordinate exceeds 50`, () => {
+    // given
+    const testGridSizeCoordinare = "51 3"; // condition to trigger error
+    render(<App />);
+
+    // when
+    const textAreaElement = screen.getByTestId("input-instruction");
+    fireEvent.change(textAreaElement, {
+      target: { value: `${testGridSizeCoordinare}\n1 1 E\nRFRFRFRF` },
+    });
+
+    const buttonElement = screen.getByRole("button");
+    fireEvent.click(buttonElement);
+
+    const main = screen.getByRole("main");
+    console.log(prettyDOM(main));
+
+    // then
+    const elem = screen.getByText("Maximum coordinate allowed is 50");
+    expect(elem).toBeInTheDocument();
+  });
+
+  // TODO - Must implement in source code
+  it.skip(`should
+    - render error message,
+    - when an instruction string length is greater than 99`, () => {
+    // given
+    const testInstruction =
+      "FRRFLLFFRRFLLRFRLFFRFRRFLLFFRRFLLRFRLFFRFRRFLLFFRRFLLRFRLFFRFRRFLLFFRRFLLRFRLFFRFRRFLLFFRRFLLRFRLFFR"; // condition to trigger error
+    render(<App />);
+
+    // when
+    const textAreaElement = screen.getByTestId("input-instruction");
+    fireEvent.change(textAreaElement, {
+      target: { value: `51 3\n1 1 E\n${testInstruction}` },
+    });
+
+    const buttonElement = screen.getByRole("button");
+    fireEvent.click(buttonElement);
+
+    const main = screen.getByRole("main");
+    console.log(prettyDOM(main));
+
+    // then
+    const elem = screen.getByText(
+      "Maximum length of instructions per robot must be less than 100"
+    );
+    expect(elem).toBeInTheDocument();
   });
 });
