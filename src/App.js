@@ -13,7 +13,10 @@ function App() {
 
     // Set initial grid
     const firstLine = lines.shift();
-    const upperRightCoords = firstLine.split(" ");
+    const upperRightCoords = firstLine
+      .split(" ")
+      .map((coord) => parseInt(coord));
+
     setUpperRightCoords(upperRightCoords);
 
     let currentRobotNum = 0;
@@ -55,8 +58,7 @@ function App() {
     // Crunch the robot inctructions..
     const historicalRobotPositions = [{ x, y, orientation }];
 
-    const coordsX = Array.from(Array(upperRightCoords[0]).keys());
-    const coordsY = Array.from(Array(upperRightCoords[1]).keys());
+    const [upperXBoundary, upperYBoundary] = upperRightCoords;
 
     const orientationHashMap = {
       NL: "W",
@@ -82,6 +84,8 @@ function App() {
       S: [plusMinusMap.NO_MOVE, plusMinusMap.MINUS_ONE],
       W: [plusMinusMap.MINUS_ONE, plusMinusMap.NO_MOVE],
     };
+
+    let isLost = false;
 
     instructions.forEach((instruction) => {
       const {
@@ -111,6 +115,10 @@ function App() {
           break;
       }
 
+      if (newX > upperXBoundary || newY > upperYBoundary) {
+        isLost = true;
+      }
+
       const newRobotPosition = {
         x: newX,
         y: newY,
@@ -120,7 +128,7 @@ function App() {
       historicalRobotPositions.push(newRobotPosition);
     });
 
-    console.log("HISTORICAL ROBOTO POSITIONS", historicalRobotPositions);
+    console.log(`HISTORICAL ROBOTO POSITIONS for`, historicalRobotPositions);
 
     const {
       x: finalX,
@@ -128,7 +136,7 @@ function App() {
       orientation: finalOrientation,
     } = historicalRobotPositions.at(-1);
 
-    return `${finalX} ${finalY} ${finalOrientation}`;
+    return `${finalX} ${finalY} ${finalOrientation}${isLost ? " LOST" : ""}`;
   };
 
   const renderRobots = () => {
@@ -161,6 +169,11 @@ function App() {
         textarea {
           width: 90%;
           height: 50vh;
+        }
+
+        ul {
+          list-style-type: none;
+          padding: 0;
         }
       `}</style>
     </>

@@ -37,7 +37,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ## Known bugs
 
-- When inserting the following instruction, the output is slightly off by 1 (Y coordinate) when compared to PDF result. A skipped (failing) unit test is implemented for now.
+- When inserting the following instruction, the output is slightly off by 1 (Y coordinate) when compared to PDF result. A skipped (failing) unit test is implemented for now. There is a possibility that my initial implementation is correct, and the expected output outlined from PDF is slightly incorrect?
 
 Input:
 
@@ -46,7 +46,7 @@ Input:
 LLFFFLFLFL
 ```
 
-Expected Output:
+Expected Output (from PDF instructions):
 
 ```
 2 3 S
@@ -60,7 +60,7 @@ Actual Output:
 
 ## Missing tasks / future considerations
 
-- Implement "Lost" (out-of-bounds) functionality
-- Implement validation of text instruction entries
+- Implement "Lost" (out-of-bounds) functionality ✅ (implemented within 10 minutes of resumption of work, post-submission.)
+- Implement validation of text instruction entries. (possible solution: implement separate validation functions to check for maximum coordinate value, and instruction string length limit), and invoke those validation functions within onHandleInstructions(). If there are any validation errors, then push to new local component state `[errors, setErrors]` as an array of errors, and render out all invalid messages, and stop from further processing instructions.
 - Refactor out calculations into its own exportable functions to be imported into the component. Easier to write isolated unit tests per function.
 - Style up the component better
